@@ -1,0 +1,32 @@
+.table-container {
+    margin: 20px;
+  }
+  
+.table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+  }
+
+.btn-delete{
+    margin-left: 40px;
+    color: #1c1c1d;
+    padding-left: 40px;
+}
+
+.table thead th {
+    background-color: #1c1c1d;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding: 12px;
+    font-weight: bold;
+    border-bottom: 2px solid #212529;
+    border: 1px solid rgb(238, 233, 233);
+  }
+  
+  .table tbody td {
+    border: 1px solid rgb(209, 209, 209);
+    padding-top: 12px;
+  }
+  
