@@ -2,15 +2,9 @@ import React from "react";
 import './StudentData.css'
 import { Table } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
+import DeleteButton from "./DeleteData";
 
-const StudentData = ({ data }) => {
-    const handleEdit = (id) => {
-        console.log(`Edit clicked for ID: ${id}`);
-      };
-    
-      const handleDelete = (id) => {
-        console.log(`Delete clicked for ID: ${id}`);
-      };
+const StudentData = ({ data, handleEdit, handleDelete }) => {
 
   return (
     <div>
@@ -21,6 +15,7 @@ const StudentData = ({ data }) => {
             <th>Name</th>
             <th>Phone Number</th>
             <th>Address</th>
+            <th>Gender</th>
             <th>Action</th>
             </tr>
         </thead>
@@ -31,18 +26,13 @@ const StudentData = ({ data }) => {
                 <td>{item.name}</td>
                 <td>{item.phone}</td>
                 <td>{item.address}</td>
+                <td>{item.Gender}</td>
                 <td>
-                <Button variant="outline-dark"
-                    className="btn-edit"
-                    onClick={() => handleEdit(item.id)}
-                >Edit</Button>
+                <Button variant="outline-dark" className="btn-edit" onClick={() => handleEdit(item.id)}>
+                    Edit
+                  </Button>
 
-                <Button variant="outline-danger"
-                    className="btn-delete"
-                    onClick={() => handleDelete(item.id)}
-                >
-                Delete</Button>
-
+                <DeleteButton id={item.id} onDelete={handleDelete} />
                 </td>
             </tr>
             ))}

@@ -1,84 +1,147 @@
 import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import './App.css';
 import StudentData from './Components/StudentData';
+import AddStudent from "./Components/AddStudent";
+import EditData from "./Components/EditData";
 
 const App = () => {
   const dataArray = [
       {
         id: 1,
         name: "John Doe",
-        phone: "123-456-7890",
-        address: "123, Main Street"
+        phone: "1234567890",
+        address: "123, Main Street",
+        Gender: "Male"
       },
       {
         id: 2,
         name: "Jane Smith",
-        phone: "987-654-3210",
-        address: "456, Elm Avenue"
+        phone: "9876543210",
+        address: "456, Elm Avenue",
+        Gender: "Male"
       },
       {
         id: 3,
         name: "Bob Johnson",
-        phone: "555-123-4567",
-        address: "789, Oak Road"
+        phone: "5551234567",
+        address: "789, Oak Road",
+        Gender: "Male"
       },
       {
         id: 4,
         name: "Alice Brown",
-        phone: "444-555-6666",
-        address: "321, Pine Lane"
+        phone: "4445556666",
+        address: "321, Pine Lane",
+        Gender: "Male"
       },
       {
         id: 5,
         name: "Michael Lee",
-        phone: "777-888-9999",
-        address: "555, Cedar Street"
+        phone: "7778889999",
+        address: "555, Cedar Street",
+        Gender: "Male"
       },
       {
         id: 6,
         name: "Sarah Adams",
-        phone: "222-333-4444",
-        address: "999, Birch Avenue"
+        phone: "2223334444",
+        address: "999, Birch Avenue",
+        Gender: "Female"
       },
       {
         id: 7,
         name: "David Wilson",
-        phone: "111-222-3333",
-        address: "444, Maple Drive"
+        phone: "1112223333",
+        address: "444, Maple Drive",
+        Gender: "Male"
       },
       {
         id: 8,
         name: "Karen Brown",
-        phone: "666-777-8888",
-        address: "777, Oak Lane"
+        phone: "6667778888",
+        address: "777, Oak Lane",
+        Gender: "Male"
       },
       {
         id: 9,
         name: "Chris Evans",
-        phone: "888-999-0000",
-        address: "111, Pine Avenue"
+        phone: "8889990000",
+        address: "111, Pine Avenue",
+        Gender: "Male"
       },
       {
         id: 10,
         name: "Emily Taylor",
-        phone: "333-444-5555",
-        address: "222, Elm Street"
+        phone: "3334445555",
+        address: "222, Elm Street",
+        Gender: "Female"
       }
     ];
 
-    const [student, setStudent] = useState(dataArray);
-    
+  const [student, setStudent] = useState(dataArray);
+  const [showForm, setShowForm] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+
+  const handleAddStudent = () => {
+    setShowForm(!showForm);
+  };
+
+  const handleDelete = (id) => {
+    setStudent((prevStudent) => prevStudent.filter((item) => item.id !== id));
+  };
+
+  const handleFormSubmit = (newStudentData) => {
+    const newStudent = { ...newStudentData, id: student.length + 1 };
+    setStudent((prevStudent) => [...prevStudent, newStudent]);
+    setShowForm(false);
+  };
+
+  const handleEdit = (id) => {
+    const studentToEdit = student.find((item) => item.id === id);
+    setSelectedStudent(studentToEdit);
+    setShowEditModal(true);
+  };
+
+  const handleUpdate = (updatedStudentData) => {
+    setStudent((prevStudent) =>
+      prevStudent.map((item) => (item.id === updatedStudentData.id ? updatedStudentData : item))
+    );
+    setShowEditModal(false);
+  };
+
+
   return (
-    <div className="container">
-      <h4>Welcome to</h4>
-      <h2>Student Management System</h2>
-      <div className="addButton">
-        <Button variant="secondary" className="btn-add">
-              Add Student
+      <div className="container">
+        <h4>Welcome to</h4>
+        <h2>Student Management System</h2>
+        <div className="addButton">
+            <Button variant="secondary" className="btn-add" onClick={handleAddStudent}>
+            {showForm ? "Cancel" : "Add Student"}
             </Button>
         </div>
-      <StudentData data={student}/>
+
+      <StudentData data={student} handleEdit={handleEdit} handleDelete={handleDelete} />
+
+      <Modal show={showForm} onHide={() => setShowForm(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Student</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <AddStudent onAddStudent={handleFormSubmit} />
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Student Data</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedStudent && <EditData studentData={selectedStudent} onUpdate={handleUpdate} />}
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
