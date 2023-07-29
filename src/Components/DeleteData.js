@@ -23,7 +23,7 @@ const DeleteButton = ({ id, onDelete }) => {
         <Button variant="outline-danger" className="btn-delete" onClick={handleShowModal}>
           Delete
         </Button>
-        <DeleteConfirm show={showModal} onClose={handleCloseModal} onConfirm={handleDelete} />
+        <DeleteConfirm show={showModal} onClose={handleCloseModal} onConfirm={handleDelete} userID={id}/>
       </>
     );
 };
