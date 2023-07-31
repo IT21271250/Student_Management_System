@@ -34,16 +34,6 @@ const AddStudent = ({ onAddStudent }) => {
 
   return (
     <Form onSubmit={handleFormSubmit}>
-      <Form.Group controlId="id">
-        <Form.Label>ID :</Form.Label>
-        <Form.Control
-          type="text"
-          name="id"
-          value={newStudentData.id}
-          onChange={handleFormChange}
-          required
-        />
-      </Form.Group>
       <Form.Group controlId="name">
         <Form.Label>Name :</Form.Label>
         <Form.Control
