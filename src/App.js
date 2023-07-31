@@ -119,7 +119,7 @@ const App = () => {
         <h2>Student Management System</h2>
         <div className="addButton">
             <Button variant="secondary" className="btn-add" onClick={handleAddStudent}>
-            {showForm ? "Cancel" : "Add Student"}
+            Add Student
             </Button>
         </div>
 
