@@ -1,87 +1,80 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
-import './EditData.css';
+import { Form, Input, Button, Select } from "antd";
+import "./EditData.css";
+
+const { Option } = Select;
 
 const EditData = ({ studentData, onUpdate }) => {
-  const [formData, setFormData] = useState(studentData);
+  const [form] = Form.useForm();
   const [phoneError, setPhoneError] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     setIsFormValid(phoneError === "");
-  }, [formData, phoneError]);
+  }, [phoneError]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handleChange = (changedValues, allValues) => {
+    const { phone } = allValues;
 
-    if (name === "phone") {
-        const phonePattern = /^\d{10}$/;
-        if (!phonePattern.test(value)) {
-          setPhoneError("Phone number must be 10 digits");
-        } else {
-          setPhoneError("");
-        }
+    if (phone) {
+      const phonePattern = /^\d{10}$/;
+      if (!phonePattern.test(phone)) {
+        setPhoneError("Phone number must be 10 digits");
+      } else {
+        setPhoneError("");
       }
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  const handleSubmit = (values) => {
     if (phoneError !== "") {
-        return;
-      }
+      return;
+    }
 
-    onUpdate(formData);
+    onUpdate(values);
   };
 
   return (
     <div className="addStudent">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formId">
-          <Form.Label>ID :</Form.Label>
-          <Form.Control type="text" name="id" value={formData.id} readOnly />
-        </Form.Group>
+      <Form form={form} initialValues={studentData} onFinish={handleSubmit} onValuesChange={handleChange}>
+        <Form.Item label="ID :" name="id">
+          <Input readOnly />
+        </Form.Item>
 
-        <Form.Group controlId="formName">
-          <Form.Label>Name :</Form.Label>
-          <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} />
-        </Form.Group>
+        <Form.Item label="Name :" name="name" rules={[{ required: true, message: "Please input the name!" }]}>
+          <Input />
+        </Form.Item>
 
-        <Form.Group controlId="formPhone">
-          <Form.Label>Phone Number :</Form.Label>
-          <Form.Control
-            type="text"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            isInvalid={phoneError !== ""}
-          />
-          <Form.Control.Feedback type="invalid">{phoneError}</Form.Control.Feedback>
-        </Form.Group>
+        <Form.Item
+          label="Phone Number :"
+          name="phone"
+          rules={[
+            { required: true, message: "Please input the phone number!" },
+            { pattern: /^\d{10}$/, message: "Phone number must be 10 digits" },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        {phoneError && <Form.Item><span className="ant-form-item-explain ant-form-item-explain-error">{phoneError}</span></Form.Item>}
 
-        <Form.Group controlId="formAddress">
-          <Form.Label>Address :</Form.Label>
-          <Form.Control type="text" name="address" value={formData.address} onChange={handleChange} />
-        </Form.Group>
+        <Form.Item label="Address :" name="address" rules={[{ required: true, message: "Please input the address!" }]}>
+          <Input />
+        </Form.Item>
 
-        <Form.Group controlId="formGender">
-          <Form.Label>Gender :</Form.Label>
-          <Form.Control as="select" name="Gender" value={formData.Gender} onChange={handleChange}>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </Form.Control>
-        </Form.Group>
+        <Form.Item label="Gender :" name="Gender" rules={[{ required: true, message: "Please select a gender!" }]}>
+          <Select>
+            <Option value="Male">Male</Option>
+            <Option value="Female">Female</Option>
+          </Select>
+        </Form.Item>
 
-        <Button className="update" variant="primary" type="submit" disabled={!isFormValid}>
-          Update
-        </Button>
+        <Form.Item>
+          <Button className="update" type="primary" htmlType="submit" disabled={!isFormValid}>
+            Update
+          </Button>
+        </Form.Item>
       </Form>
-      </div>
+    </div>
   );
 };
 

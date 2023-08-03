@@ -1,43 +1,53 @@
 import React from "react";
 import './StudentData.css'
-import { Table } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import { Table, Button } from "antd";
 import DeleteButton from "./DeleteData";
 
 const StudentData = ({ data, handleEdit, handleDelete }) => {
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Phone Number",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Gender",
+      dataIndex: "Gender",
+      key: "Gender",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      render: (_, record) => (
+        <span>
+          <Button type="primary" ghost onClick={() => handleEdit(record.id)}>
+            Edit
+          </Button>
+          <DeleteButton id={record.id} onDelete={handleDelete} />
+        </span>
+      ),
+    },
+  ];
 
   return (
     <div>
-        <Table className="table" striped="columns" >
-        <thead className="thead-dark">
-            <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Address</th>
-            <th>Gender</th>
-            <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {data.map((item) => (
-            <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.phone}</td>
-                <td>{item.address}</td>
-                <td>{item.Gender}</td>
-                <td>
-                <Button variant="outline-dark" className="btn-edit" onClick={() => handleEdit(item.id)}>
-                    Edit
-                  </Button>
-
-                <DeleteButton id={item.id} onDelete={handleDelete} />
-                </td>
-            </tr>
-            ))}
-        </tbody>
-        </Table>
+      <Table columns={columns} dataSource={data} bordered />
     </div>
   );
 };

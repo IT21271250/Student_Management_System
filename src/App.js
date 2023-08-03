@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import { Button, Modal } from "antd";
 import './App.css';
 import StudentData from './Components/StudentData';
 import AddStudent from "./Components/AddStudent";
 import EditData from "./Components/EditData";
+// import axios from 'axios';
 
 const App = () => {
   const dataArray = [
@@ -85,9 +85,33 @@ const App = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
 
+  // useEffect(() => {
+  //   fetchStudentData();
+  // }, []);
+
+  // const fetchStudentData = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3000/student');
+  //     setStudent(response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+
   const handleAddStudent = () => {
-    setShowForm(!showForm);
+    setShowForm(true);
   };
+
+  // const handleAddStudent = async (newStudentData) => {
+  //   try {
+  //     const response = await axios.post('http://localhost:3000/student', newStudentData);
+  //     const newStudent = { ...response.data, id: student.length + 1 };
+  //     setStudent((prevStudent) => [...prevStudent, newStudent]);
+  //     setShowForm(false);
+  //   } catch (error) {
+  //     console.error('Error adding student:', error);
+  //   }
+  // };
 
   const handleDelete = (id) => {
     setStudent((prevStudent) => prevStudent.filter((item) => item.id !== id));
@@ -112,36 +136,48 @@ const App = () => {
     setShowEditModal(false);
   };
 
+  // const handleUpdate = async (updatedStudentData) => {
+  //   try {
+  //     await axios.put(`http://localhost:students/${updatedStudentData.id}`, updatedStudentData);
+  //     setStudent((prevStudent) =>
+  //       prevStudent.map((item) => (item.id === updatedStudentData.id ? updatedStudentData : item))
+  //     );
+  //     setShowEditModal(false);
+  //   } catch (error) {
+  //     console.error('Error updating student:', error);
+  //   }
+  // };
 
   return (
       <div className="container">
         <h4>Welcome to</h4>
         <h2>Student Management System</h2>
         <div className="addButton">
-            <Button variant="secondary" className="btn-add" onClick={handleAddStudent}>
-            Add Student
-            </Button>
+        <Button type="primary" className="btn-add" onClick={handleAddStudent}>
+          Add Student
+        </Button>
         </div>
 
       <StudentData data={student} handleEdit={handleEdit} handleDelete={handleDelete} />
 
-      <Modal show={showForm} onHide={() => setShowForm(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Student</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <AddStudent onAddStudent={handleFormSubmit} />
-        </Modal.Body>
+      <Modal
+        title="Add Student"
+        visible={showForm}
+        onCancel={() => setShowForm(false)}
+        footer={null}
+      >
+        <AddStudent onAddStudent={handleFormSubmit} />
       </Modal>
 
-      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Student Data</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedStudent && <EditData studentData={selectedStudent} onUpdate={handleUpdate} />}
-        </Modal.Body>
+      <Modal
+        title="Edit Student Data"
+        visible={showEditModal}
+        onCancel={() => setShowEditModal(false)}
+        footer={null}
+      >
+        {selectedStudent && <EditData studentData={selectedStudent} onUpdate={handleUpdate} />}
       </Modal>
+      
     </div>
   );
 };

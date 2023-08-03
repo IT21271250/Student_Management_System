@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "antd";
 import DeleteConfirm from "./DeleteConfirm";
 
 const DeleteButton = ({ id, onDelete }) => {
@@ -20,7 +20,7 @@ const DeleteButton = ({ id, onDelete }) => {
 
   return (
       <>
-        <Button variant="outline-danger" className="btn-delete" onClick={handleShowModal}>
+        <Button danger className="btn-delete" onClick={handleShowModal}>
           Delete
         </Button>
         <DeleteConfirm show={showModal} onClose={handleCloseModal} onConfirm={handleDelete} userID={id}/>

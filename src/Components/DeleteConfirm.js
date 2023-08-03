@@ -1,22 +1,25 @@
 import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button } from 'antd';
 
 const DeleteConfirm = ({ show, onClose, onConfirm, userID }) => {
-  return (
-    <Modal show={show} onHide={onClose} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>Delete Confirmation</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>Are you sure to delete user {userID}?</Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button variant="danger" onClick={onConfirm}>
-          Delete
-        </Button>
-      </Modal.Footer>
-    </Modal>
+
+      return (
+        <Modal
+          visible={show}
+          onCancel={onClose}
+          centered
+          footer={[
+            <Button key="cancel" onClick={onClose}>
+              Cancel
+            </Button>,
+            <Button key="delete" type="primary" danger onClick={onConfirm}>
+              Delete
+            </Button>,
+          ]}
+        >
+          <h2>Delete Confirmation</h2>
+          <p>Are you sure to delete user {userID}?</p>
+        </Modal>
   );
 };
 
