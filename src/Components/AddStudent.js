@@ -34,7 +34,7 @@ const AddStudent = ({ onAddStudent }) => {
       <Form.Item label="Address :" name="address" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item label="Gender :" name="Gender" rules={[{ required: true }]}>
+      <Form.Item label="Gender :" name="gender" rules={[{ required: true }]}>
         <Select>
           <Option value="">Select Gender</Option>
           <Option value="Male">Male</Option>

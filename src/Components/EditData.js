@@ -61,7 +61,7 @@ const EditData = ({ studentData, onUpdate }) => {
           <Input />
         </Form.Item>
 
-        <Form.Item label="Gender :" name="Gender" rules={[{ required: true, message: "Please select a gender!" }]}>
+        <Form.Item label="Gender :" name="gender" rules={[{ required: true, message: "Please select a gender!" }]}>
           <Select>
             <Option value="Male">Male</Option>
             <Option value="Female">Female</Option>

@@ -27,8 +27,8 @@ const StudentData = ({ data, handleEdit, handleDelete }) => {
     },
     {
       title: "Gender",
-      dataIndex: "Gender",
-      key: "Gender",
+      dataIndex: "gender",
+      key: "gender",
     },
     {
       title: "Action",
